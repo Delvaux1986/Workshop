@@ -45,7 +45,19 @@
             </div>
         </div>
     </div>
-    
+    <div class="container">
+    <form action="{{ route('comments.store' , $topic)}}" method="POST" class="mt-3">
+        @csrf
+        <div class="form-group">
+            <label for="content" id="content" class="text-light">Votre commentaire</label>
+            <textarea name="content" rows="3" class="form-control @error('content') is-invalid @enderror"></textarea>
+                @error('content')
+                <div class="invalid-feedback">{{$errors->first('content')}} </div>
+                @enderror
+            </div>
+            <button type="submit" class="btn btn-primary">Envoi</button>
+        </form>
+    </div>
 
     {{-- COMMENT SECTION  --}}
    
