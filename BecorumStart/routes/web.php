@@ -31,6 +31,9 @@ Route::get('/logout' , 'Laravel\Fortify\Http\Controllers\AuthenticatedSessionCon
 
 Route::post('/comments/{topic}' , [CommentController::class , 'store'])->name('comments.store');
 
+Route::post('commentReply/{comment}' , [CommentController::class , 'storeCommentReply'])->name('comment.storeReply');
+
+
 
 
 

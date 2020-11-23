@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Comment;
 
 
 class Topic extends Model
@@ -21,7 +22,7 @@ class Topic extends Model
         return $this->belongsTo(User::class);
     }
     public function comments(){
-        return $this->morphMany('App/Models/Comment' , 'commentable')->latest();
+        return $this->morphMany(Comment::class , 'commentable')->latest();
     }
     
 }
