@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Notifications\DatabaseNotification;
 // use newComment
 // use DatabaseNotif
 
@@ -120,6 +121,12 @@ class TopicController extends Controller
         Topic::destroy($topic->id);
         
         return redirect()->route('topics.index');
+    }
+
+    public function showFromNotification(Topic $topic, DatabaseNotification $notification){
+        $notification->markAsRead();
+
+        return view('topics.show', compact('topic'));
     }
     
 }

@@ -18,18 +18,23 @@
                 
                 
                 {{-- AUTH MENU --}}
+                @unless(Auth::user()->unreadNotifications->isEmpty())
                     <nav class="nav nav-pills nav-fill justify-content-end pr-5 mr-3 pt-4">
                         
-                        <!-- Notification MENU -->
-                            {{-- <li class="nav-item dropdown">
+                         Notification MENU 
+                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <!-- User notfi -->
+                                    {{ Auth::user()->unreadNotifications->count() }} Notifications
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <!-- Foreach -->
-                            
+                                        @foreach(auth()->user()->unreadNotifications as $notification)
+                                        <a href="{{ route('showFromNotification' , ['topic' => $notification->data['topicId'] , 'notification' => $notification->id])}}"> {{ $notification->data['username']}} à posté un commentaire sur <strong>{{ $notification->data['topicTitle'] }}</strong>  </a>
+                                        @endforeach
                                 </div>
-                            </li> --}}
+                            </li>
+                @endunless
 
 
                             <li class="nav-item dropdown ">

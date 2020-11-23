@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Topic;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
-
+use App\Notifications\NewCommentPosted;
 
 class CommentController extends Controller
 {
@@ -23,6 +23,9 @@ class CommentController extends Controller
         $comment->user_id = Auth::user()->id;
 
         $topic->comments()->save($comment);
+
+        //notif
+        $topic->user->notify(new NewCommentPosted($topic, Auth::user()));
 
         return redirect()->route('topics.show' , $topic);
     }

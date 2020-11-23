@@ -33,7 +33,7 @@ Route::post('/comments/{topic}' , [CommentController::class , 'store'])->name('c
 
 Route::post('commentReply/{comment}' , [CommentController::class , 'storeCommentReply'])->name('comment.storeReply');
 
-
+Route::get('showFromNotification/{topic}/{notification}', [TopicController::class, 'showFromNotification'])->name('showFromNotification');
 
 
 
