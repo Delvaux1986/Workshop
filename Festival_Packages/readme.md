@@ -1,6 +1,6 @@
 # In order to follow me during the session, please be sure to:
 
-### Before any coding ==> ```BASH cd assets/DemoPackages```
+### Before any coding ==> ```BASH cd Workshop/Festival_Packages```
 
 ## Part-One ==> Little packages
 
