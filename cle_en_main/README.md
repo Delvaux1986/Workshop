@@ -1,61 +1,170 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+Partie Aleks ( +-40 min)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Initialiser son projet
 
-## About Laravel
+```composer create-project --prefer-dist laravel/laravel workshop```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Initialiser un projet avec jetstream
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+``composer require laravel/jetstream``
 
-## Learning Laravel
+``php artisan jetstream:install livewire``
+- Permet de choisir son framework full-stack (choix entre livewire ou inertia)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+``npm install && npm run dev``
+- Pour compiler le tout
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Modification du fichier ***.env*** présent à la racine de vôtre projet pour se connecter à la db
 
-## Laravel Sponsors
+``php artissan migrate``
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Migration de datas vers la db
 
-### Premium Partners
+``php artissan serve``
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+### Petit tour de l'interface
 
-## Contributing
+***app/config/jetstream.php***
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+En decommentant
+ ```PHP
+   'features' => [
+        // Features::profilePhotos(),
+        // Features::api(),
+        // Features::teams(),
+    ],
 
-## Code of Conduct
+];
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. ProfilePhotos
+    - permet de charger/changer/delete une photo de profil
+2. api
+    - gestion de clés api
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+***app/providers/JetstreamServiceProvider.php***
 
-## License
+  ```PHP
+       Jetstream::defaultApiTokenPermissions(['read']);
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+        Jetstream::permissions([
+            'create',
+            'read',
+            'update',
+            'delete',
+        ]);
+ ```
+
+***app/providers/FortifyServiceProvider.php***
+    - Empeche les connections trop rapprochés
+
+
+### Partie creation des tables 
+
+``php artisan make:model Topic -m -c -r``
+
+***database/migrations/Topics*** créer differentes tables
+
+```PHP
+$table->string('title');
+$table->string('content');
+$table->unsignedBigInteger('user_id');
+
+ clé étrangère vers la table users
+$table->foreign('user_id')->references('id')->on('users');
+```
+
+Migration vers la db avec 
+``php artisan migrate``
+
+### Creation des  **Routes**
+
+```PHP
+use App\Http\Controllers\TopicController;
+use Illuminate\Support\Facades\Auth;
+
+
+// On applique bien la racine à la méthode index (pour eviter de mettre localhost/topic/index)
+Route::get('/', [TopicController::class, 'index'])->name('topics.index');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+// On rajouts le préfix "topics" à toutes nos autres routes
+// Comme ça on aura localhost/topics/create ou localhost/topics/update
+Route::resource('topics', TopicController::class);
+```
+### **Fake informations** dans la db
+
+- Créer une factory  
+```php artisan make:factory TopicFactory```  
+
+***Database/factories/TopicFactory***
+
+```PHP    
+'title' => $this->faker->sentence,
+            'content' => $this->faker->paragraph,
+            'user_id' => \App\Models\User::factory(),
+```
+ 
+```composer dump-autoload```  
+
+```php artisan tinker ``` 
+
+``Topic::factory()->count(50)->create(); ``
+
+### **Afficher les données** crées
+- Dans le controller, methode *index*, créer la variable permettant de récup les données :
+***app/http/Controllers/TopicController***
+```PHP
+$topics = Topic::latest()->paginate(10);
+
+return view('topics.index', compact('topics'));
+```
+- Créer un dossier topics dans ***ressources/views ** + *index.blade.php* 
+- Faire une boucle permettant d'afficher les topics avec : 
+```PHP 
+    @extends('layouts.app')
+
+@section('title', 'Hello Woods! ')
+
+@section('content')
+<div class="container">
+    <div class="list-group">
+        @foreach ($topics as $topic)
+        <div class="list-group-item">
+            <h4><a href="{{ route('topics.show', $topic)}}">{{ $topic->title }}</a></h4>
+            <p>{{ $topic->content }} </p>
+            <div class="d-flex justify-content-between">
+                <small> Posté le {{ $topic->created_at->format('d/m/Y à H:m') }}</small>
+                <span class="badge badge-primary">{{ $topic->user->name }}</span>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    {{$topics->links()}}
+</div>
+
+@endsection
+```
+- Dans le **Model** User ajouter une méthode permettant pour la relation avec les users
+
+***app/models*** 
+
+```PHP
+    public function topics(){
+        return $this->hasMany('App\Models\Topic');
+    }
+```
+- Dans le **Model** Topic : 
+```PHP
+      public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
+```
+
+<img src="https://media.tenor.com/images/f38991362a89e2113ab04f6d12427ac9/tenor.gif">
+
