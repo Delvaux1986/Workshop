@@ -11,14 +11,19 @@
 </div>
 
 <div align="center">
-    <h2><strong><em>Les prérecquis pour ce Workshop</em></strong></h2>
+    <h2><strong><em>Les pré-requis pour ce Workshop</em></strong></h2>
     <br> 
 </div>
 <div align="center">
     <li>1. La dernière version de composer</li>
     <li>2. Un serveur Apache* fonctionnel avec PHP 7.3 minimum</li>
+<<<<<<< HEAD
     <li>3. La dernière version de laravel (composer global require laravel/installer)</li>
     <p>*serveur apache(WAMP, LAMP, XAMP, LARAGON)</p>
+=======
+    <li>3. La derniere version de Laravel ( composer global require laravel/installer )</li>
+    <p>*serveur apache(WAMP , LAMP , XAMP , LARAGON)</p>
+>>>>>>> 6d67c9312e2c5e789dde80a64dfd130b88f944c4
     <br><hr><br>
 </div>
 <div align="center">
@@ -28,6 +33,7 @@
         <li>Entracte de 10 min.</li>
         <li>Becorum (Par Robby & Robin) .</li>
         <li>Entracte de 10 min.</li>
+<<<<<<< HEAD
         <li>Démo de quelques composants intéressants (Par Jurgen).</li>
         <br><hr><br>
 </div>
@@ -46,6 +52,28 @@
 <div align="center">
     <h3><strong><em>Féstival de packages (par Jurgen)</em></strong></h3>
     <p>Petit festival de packages tous plus intéressants les uns que les autres et dont il faut connaître l'existence.</p>
+=======
+        <li>Démo de quelques composants/packages intéressants (Par Jurgen).</li>
+        <br><hr><br>
+</div>
+<div align="center">
+    <h3><strong><em>La présentation (Par Robin)</em></strong></h3>
+    <p>Une présentation sur Laravel qui abordera plusieurs points (histoire, les avantages , les inconvénients, les parts de marché et quelques sites réalisés en Laravel)</p>
+</div>
+<div align="center">
+    <h3><strong><em>Le projet clé en main (Par Aleks)</em></strong></h3>
+    <p>Découverte et installation d'une app laravel avec Jetstream (système d'authentification) et création d'une factory pour créer un Faker (semi live coding)</p>
+</div>
+<div align="center">
+    <h3><strong><em>Le projet Becorum(par Robby & Robin)</em></strong></h3>
+    <p>Il s'agit d'un forum réalisé en Laravel nous avons déja fais la base du CRUD pour les Topics,
+    Donc avec vous nous allons tenter d'y rajouter une partie commentaires , un système de réponses aux commentaires et aussi un système de notifications quand quelqu'un repond à un de vos Topics/commentaires 
+    (live coding)</p>
+</div>
+<div align="center">
+    <h3><strong><em>Festival de packages (par Jurgen)</em></strong></h3>
+    <p>Petit festival de packages tous plus intéressants/utiles, à intégrer à tous vos projets avec l'ammi Laravel. </p>
+>>>>>>> 6d67c9312e2c5e789dde80a64dfd130b88f944c4
 </div>
 <br><hr><br>
 

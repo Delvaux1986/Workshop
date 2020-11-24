@@ -29,6 +29,11 @@ Route::resource('topics', TopicController::class)->except('logout');
 
 Route::get('/logout' , 'Laravel\Fortify\Http\Controllers\AuthenticatedSessionController@destroy')->name('logout');
 
+Route::post('/comments/{topic}' , [CommentController::class , 'store'])->name('comments.store');
+
+Route::post('commentReply/{comment}' , [CommentController::class , 'storeCommentReply'])->name('comment.storeReply');
+
+Route::get('showFromNotification/{topic}/{notification}', [TopicController::class, 'showFromNotification'])->name('showFromNotification');
 
 
 
